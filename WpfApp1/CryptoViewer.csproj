@@ -13,8 +13,4 @@
     <PackageReference Include="ScottPlot" Version="5.1.59" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
-
 </Project>

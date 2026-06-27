@@ -1,12 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CryptoViewer.Interfaces;
+using CryptoViewer.Models;
+using CryptoViewer.Services;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
-namespace CryptoViewer.ViewModels
+namespace CryptoViewer.ViewModels;
+
+public class HomeViewModel : INotifyPropertyChanged
 {
-    internal class HomeViewModel
+    private readonly ICoinGeckoService _coinGecko;
+
+    public ObservableCollection<Coin> Coins { get; } = new();
+
+    private bool _isLoading;
+    public bool IsLoading
     {
+        get => _isLoading;
+        set
+        {
+            _isLoading = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public HomeViewModel(ICoinGeckoService coinGecko)
+    {
+        _coinGecko = coinGecko;
+
+        _ = LoadCoinsAsync();
+    }
+
+    private async Task LoadCoinsAsync()
+    {
+        try
+        {
+            IsLoading = true;
+
+            var coins = await _coinGecko.GetTopCoinsAsync();
+
+            Coins.Clear();
+
+            foreach (var coin in coins)
+            {
+                Coins.Add(coin);
+            }
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
