@@ -11,6 +11,10 @@ public class CoinGeckoService : ICoinGeckoService
     {
         BaseAddress = new Uri("https://api.coingecko.com/api/v3/")
     };
+    static CoinGeckoService()
+    {
+        _httpClient.DefaultRequestHeaders.Add("User-Agent", "CryptoViewer/1.0");
+    }
 
     private static readonly JsonSerializerOptions _jsonOptions = new()
     {
@@ -33,8 +37,9 @@ public class CoinGeckoService : ICoinGeckoService
 
             return coins ?? new List<Coin>();
         }
-        catch
+        catch (Exception ex)
         {
+            System.Diagnostics.Debug.WriteLine(ex.ToString());
             return new List<Coin>();
         }
     }

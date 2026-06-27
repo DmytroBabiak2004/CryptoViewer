@@ -23,6 +23,10 @@ public class HomeViewModel : INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
+    public async Task InitializeAsync()
+    {
+        await LoadCoinsAsync();
+    }
 
     public HomeViewModel(ICoinGeckoService coinGecko)
     {

@@ -1,17 +1,19 @@
-﻿using System.Windows;
+﻿using System.Windows.Controls;
 using CryptoViewer.Services;
 using CryptoViewer.ViewModels;
 
 namespace CryptoViewer.Views;
 
-public partial class HomeView : Window
+public partial class HomeView : Page
 {
     public HomeView()
     {
         InitializeComponent();
 
-        DataContext = new HomeViewModel(
-            new CoinGeckoService()
-        );
+        var vm = new HomeViewModel(new CoinGeckoService());
+
+        DataContext = vm;
+
+        _ = vm.InitializeAsync();
     }
 }
