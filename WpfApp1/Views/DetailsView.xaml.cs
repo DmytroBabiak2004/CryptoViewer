@@ -1,6 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using CryptoViewer.Interfaces;
 using CryptoViewer.Services;
 using CryptoViewer.ViewModels;
+using System.Windows.Controls;
 
 namespace CryptoViewer.Views;
 
@@ -10,9 +11,8 @@ public partial class DetailsView : Page
     {
         InitializeComponent();
 
-        DataContext = new DetailsViewModel(
-            new CoinGeckoService(),
-            coinId
-        );
+        ICoinGeckoService coinService = new CoinGeckoService();
+
+        DataContext = new DetailsViewModel(coinService, coinId);
     }
 }

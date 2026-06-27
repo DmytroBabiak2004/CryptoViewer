@@ -2,6 +2,8 @@
 using CryptoViewer.Models;
 using System.Net.Http;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using static System.Net.WebRequestMethods;
 
 namespace CryptoViewer.Services;
 
@@ -72,4 +74,38 @@ public class CoinGeckoService : ICoinGeckoService
             PriceChange24h = marketData.GetProperty("price_change_percentage_24h").GetDecimal()
         };
     }
+    public async Task<List<(double time, double price)>> GetMarketChartAsync(string coinId)
+    {
+        var url = $"https://api.coingecko.com/api/v3/coins/{coinId}/market_chart?vs_currency=usd&days=7";
+
+        var json = await _httpClient.GetStringAsync(url);
+
+        using var doc = JsonDocument.Parse(json);
+
+        var prices = doc.RootElement
+            .GetProperty("prices")
+            .EnumerateArray()
+            .Select(x =>
+            {
+                double time = x[0].GetDouble();
+                double price = x[1].GetDouble();
+                return (time, price);
+            })
+            .ToList();
+
+        return prices;
+    }
+    public async Task<List<Market>> GetMarketsAsync(string coinId)
+    {
+        var url = $"coins/{coinId}/tickers";
+        var response = await _httpClient.GetAsync(url);
+        response.EnsureSuccessStatusCode();
+        var json = await response.Content.ReadAsStringAsync();
+        var root = JsonSerializer.Deserialize<TickersRoot>(json, _jsonOptions);
+        return root?.Tickers.Take(8).ToList() ?? new();
+    }
+
+    private record TickersRoot(
+        [property: JsonPropertyName("tickers")] List<Market> Tickers
+    );
 }
