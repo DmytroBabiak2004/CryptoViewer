@@ -1,6 +1,5 @@
 ﻿using CryptoViewer.Interfaces;
 using CryptoViewer.Models;
-using CryptoViewer.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -11,7 +10,21 @@ public class HomeViewModel : INotifyPropertyChanged
 {
     private readonly ICoinGeckoService _coinGecko;
 
+    private List<Coin> _allCoins = new();
+
     public ObservableCollection<Coin> Coins { get; } = new();
+
+    private string _searchText = "";
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            _searchText = value;
+            OnPropertyChanged();
+            FilterCoins();
+        }
+    }
 
     private bool _isLoading;
     public bool IsLoading
@@ -23,16 +36,15 @@ public class HomeViewModel : INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
-    public async Task InitializeAsync()
-    {
-        await LoadCoinsAsync();
-    }
 
     public HomeViewModel(ICoinGeckoService coinGecko)
     {
         _coinGecko = coinGecko;
+    }
 
-        _ = LoadCoinsAsync();
+    public async Task InitializeAsync()
+    {
+        await LoadCoinsAsync();
     }
 
     private async Task LoadCoinsAsync()
@@ -43,8 +55,9 @@ public class HomeViewModel : INotifyPropertyChanged
 
             var coins = await _coinGecko.GetTopCoinsAsync();
 
-            Coins.Clear();
+            _allCoins = coins;
 
+            Coins.Clear();
             foreach (var coin in coins)
             {
                 Coins.Add(coin);
@@ -53,6 +66,23 @@ public class HomeViewModel : INotifyPropertyChanged
         finally
         {
             IsLoading = false;
+        }
+    }
+
+    private void FilterCoins()
+    {
+        var query = _searchText?.Trim().ToLower();
+
+        Coins.Clear();
+
+        foreach (var coin in _allCoins)
+        {
+            if (string.IsNullOrWhiteSpace(query) ||
+                coin.Name.ToLower().Contains(query) ||
+                coin.Symbol.ToLower().Contains(query))
+            {
+                Coins.Add(coin);
+            }
         }
     }
 

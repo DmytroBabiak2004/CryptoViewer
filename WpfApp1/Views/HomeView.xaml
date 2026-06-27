@@ -3,7 +3,21 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Background="#121212">
     <Grid Margin="20">
-        <ListView ItemsSource="{Binding Coins}"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBox Grid.Row="0"
+                 Margin="0,0,0,10"
+                 Height="35"
+                 Background="#1E1E1E"
+                 Foreground="White"
+                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                 Padding="10"/>
+
+        <ListView Grid.Row="1"
+                  ItemsSource="{Binding Coins}"
                   MouseDoubleClick="Coin_DoubleClick"
                   Background="#121212"
                   BorderThickness="0"
