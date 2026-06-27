@@ -7,7 +7,8 @@
         Background="#121212">
 
     <Grid>
-        <Frame x:Name="MainFrame"/>
+        <Frame x:Name="MainFrame"
+               NavigationUIVisibility="Hidden"/>
     </Grid>
 
 </Window>

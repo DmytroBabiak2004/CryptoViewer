@@ -10,5 +10,6 @@ namespace CryptoViewer.Interfaces
     public interface ICoinGeckoService
     {
         Task<List<Coin>> GetTopCoinsAsync(int limit = 10);
+        Task<CoinDetails> GetCoinDetailsAsync(string id);
     }
 }

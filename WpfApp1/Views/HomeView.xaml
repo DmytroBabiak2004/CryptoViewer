@@ -4,6 +4,7 @@
       Background="#121212">
     <Grid Margin="20">
         <ListView ItemsSource="{Binding Coins}"
+                  MouseDoubleClick="Coin_DoubleClick"
                   Background="#121212"
                   BorderThickness="0"
                   Foreground="White">

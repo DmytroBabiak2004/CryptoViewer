@@ -43,4 +43,33 @@ public class CoinGeckoService : ICoinGeckoService
             return new List<Coin>();
         }
     }
+
+    public async Task<CoinDetails> GetCoinDetailsAsync(string id)
+    {
+        var endpoint = $"coins/{id}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false";
+
+        var response = await _httpClient.GetAsync(endpoint);
+        response.EnsureSuccessStatusCode();
+
+        var json = await response.Content.ReadAsStringAsync();
+
+        using var doc = JsonDocument.Parse(json);
+
+        var marketData = doc.RootElement.GetProperty("market_data");
+
+        return new CoinDetails
+        {
+            Id = id,
+            Name = doc.RootElement.GetProperty("name").GetString() ?? "",
+            Symbol = doc.RootElement.GetProperty("symbol").GetString() ?? "",
+
+            CurrentPrice = marketData.GetProperty("current_price").GetProperty("usd").GetDecimal(),
+            MarketCap = marketData.GetProperty("market_cap").GetProperty("usd").GetInt64(),
+            TotalVolume = marketData.GetProperty("total_volume").GetProperty("usd").GetInt64(),
+
+            High24h = marketData.GetProperty("high_24h").GetProperty("usd").GetDecimal(),
+            Low24h = marketData.GetProperty("low_24h").GetProperty("usd").GetDecimal(),
+            PriceChange24h = marketData.GetProperty("price_change_percentage_24h").GetDecimal()
+        };
+    }
 }
