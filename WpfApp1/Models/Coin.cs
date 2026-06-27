@@ -5,13 +5,13 @@ namespace CryptoViewer.Models;
 public class Coin
 {
     [JsonPropertyName("id")]
-    public string Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 
     [JsonPropertyName("symbol")]
-    public string Symbol { get; set; }
+    public string Symbol { get; set; } = string.Empty;
 
     [JsonPropertyName("name")]
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     [JsonPropertyName("current_price")]
     public decimal CurrentPrice { get; set; }
@@ -20,5 +20,5 @@ public class Coin
     public decimal PriceChange24h { get; set; }
 
     [JsonPropertyName("market_cap")]
-    public long MarketCap { get; set; }
+    public decimal MarketCap { get; set; }
 }
