@@ -7,8 +7,41 @@
         Background="#121212">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="160"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Background="#0D0D0D" Margin="0">
+            <TextBlock Text="CryptoViewer"
+                       Foreground="White"
+                       FontSize="14"
+                       FontWeight="Bold"
+                       Margin="16,24,16,32"/>
+
+            <Button Content="Home"
+                    Click="NavHome_Click"
+                    Background="Transparent"
+                    Foreground="Gray"
+                    BorderThickness="0"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Left"
+                    Padding="16,10"
+                    Cursor="Hand"/>
+
+            <Button Content="Converter"
+                    Click="NavConverter_Click"
+                    Background="Transparent"
+                    Foreground="Gray"
+                    BorderThickness="0"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Left"
+                    Padding="16,10"
+                    Cursor="Hand"/>
+        </StackPanel>
+
         <Frame x:Name="MainFrame"
+               Grid.Column="1"
                NavigationUIVisibility="Hidden"/>
     </Grid>
-
 </Window>

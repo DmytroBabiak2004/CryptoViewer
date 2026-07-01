@@ -130,7 +130,8 @@
                                                Margin="16,0"/>
 
                                     <Button Content="Trade →"
-                                                Command="{Binding OpenTradeCommand}"
+                                                Command="{Binding DataContext.OpenTradeCommand,
+                                                    RelativeSource={RelativeSource AncestorType=Page}}"
                                                 CommandParameter="{Binding TradeUrl}"
                                                 Foreground="Gray"
                                                 Background="Transparent"

@@ -5,15 +5,23 @@ using OxyPlot.Axes;
 using OxyPlot.Series;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace CryptoViewer.ViewModels;
+
+public class RelayCommand(Action<object?> execute) : ICommand
+{
+    public event EventHandler? CanExecuteChanged;
+    public bool CanExecute(object? parameter) => true;
+    public void Execute(object? parameter) => execute(parameter);
+}
 
 public class DetailsViewModel : INotifyPropertyChanged
 {
     private readonly ICoinGeckoService _coinGecko;
 
-    // --- Coin ---
     private CoinDetails? _coin;
     public CoinDetails? Coin
     {
@@ -21,10 +29,8 @@ public class DetailsViewModel : INotifyPropertyChanged
         private set { _coin = value; OnPropertyChanged(); }
     }
 
-    // --- Markets ---
     public ObservableCollection<Market> Markets { get; } = new();
 
-    // --- Chart ---
     private PlotModel _plotModel = new();
     public PlotModel PlotModel
     {
@@ -32,13 +38,18 @@ public class DetailsViewModel : INotifyPropertyChanged
         private set { _plotModel = value; OnPropertyChanged(); }
     }
 
-    // --- Loading ---
     private bool _isLoading;
     public bool IsLoading
     {
         get => _isLoading;
         set { _isLoading = value; OnPropertyChanged(); }
     }
+
+    public ICommand OpenTradeCommand { get; } = new RelayCommand(param =>
+    {
+        if (param is string url && !string.IsNullOrEmpty(url))
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+    });
 
     public DetailsViewModel(ICoinGeckoService service, string coinId)
     {
@@ -80,7 +91,6 @@ public class DetailsViewModel : INotifyPropertyChanged
             TextColor = OxyColor.FromRgb(160, 160, 160),
         };
 
-        // X — час
         model.Axes.Add(new DateTimeAxis
         {
             Position = AxisPosition.Bottom,
@@ -93,7 +103,6 @@ public class DetailsViewModel : INotifyPropertyChanged
             AxislineStyle = LineStyle.None,
         });
 
-        // Y — ціна
         model.Axes.Add(new LinearAxis
         {
             Position = AxisPosition.Left,
@@ -106,10 +115,9 @@ public class DetailsViewModel : INotifyPropertyChanged
             AxislineStyle = LineStyle.None,
         });
 
-        // Лінія ціни
         var line = new LineSeries
         {
-            Color = OxyColor.FromRgb(34, 197, 94), // #22C55E
+            Color = OxyColor.FromRgb(34, 197, 94),
             StrokeThickness = 2,
             MarkerType = MarkerType.None,
             InterpolationAlgorithm = InterpolationAlgorithms.CatmullRomSpline,
@@ -117,14 +125,10 @@ public class DetailsViewModel : INotifyPropertyChanged
 
         foreach (var (time, price) in data)
         {
-            var dt = DateTimeOffset
-                .FromUnixTimeMilliseconds((long)time)
-                .UtcDateTime;
-
+            var dt = DateTimeOffset.FromUnixTimeMilliseconds((long)time).UtcDateTime;
             line.Points.Add(DateTimeAxis.CreateDataPoint(dt, price));
         }
 
-        // Заливка під лінією
         var area = new AreaSeries
         {
             Color = OxyColor.FromRgb(34, 197, 94),
@@ -135,10 +139,7 @@ public class DetailsViewModel : INotifyPropertyChanged
 
         foreach (var (time, price) in data)
         {
-            var dt = DateTimeOffset
-                .FromUnixTimeMilliseconds((long)time)
-                .UtcDateTime;
-
+            var dt = DateTimeOffset.FromUnixTimeMilliseconds((long)time).UtcDateTime;
             area.Points.Add(DateTimeAxis.CreateDataPoint(dt, price));
             area.Points2.Add(DateTimeAxis.CreateDataPoint(dt, 0));
         }

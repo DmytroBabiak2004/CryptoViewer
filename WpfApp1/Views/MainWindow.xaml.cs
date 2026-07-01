@@ -10,4 +10,14 @@ public partial class MainWindow : Window
         InitializeComponent();
         MainFrame.Navigate(new HomeView());
     }
+
+    private void NavHome_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new HomeView());
+    }
+
+    private void NavConverter_Click(object sender, RoutedEventArgs e)
+    {
+        MainFrame.Navigate(new ConverterView());
+    }
 }

@@ -36,4 +36,6 @@ public class CoinDetails
 
     [JsonPropertyName("price_change_percentage_24h")]
     public decimal PriceChange24h { get; set; }
+
+    public bool IsPriceChangePositive => PriceChange24h >= 0;
 }
