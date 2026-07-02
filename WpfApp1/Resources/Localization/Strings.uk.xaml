@@ -16,7 +16,7 @@
     <s:String x:Key="Label24hLow">МІН 24Г</s:String>
     <s:String x:Key="LabelMarkets">ДОСТУПНО НА БІРЖАХ</s:String>
     <s:String x:Key="LabelLoading">Завантаження...</s:String>
-    <s:String x:Key="BtnTrade">Торгувати →</s:String>
-    <s:String x:Key="BtnBack">← Назад</s:String>
+    <s:String x:Key="BtnTrade">Торгувати</s:String>
+    <s:String x:Key="BtnBack">Назад</s:String>
     <s:String x:Key="BtnLang">EN</s:String>
 </ResourceDictionary>

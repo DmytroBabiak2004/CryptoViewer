@@ -1,6 +1,5 @@
 ﻿using CryptoViewer.Interfaces;
 using CryptoViewer.Models;
-using CryptoViewer.Services;
 using CryptoViewer.ViewModels;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -9,9 +8,12 @@ namespace CryptoViewer.Views;
 
 public partial class HomeView : Page
 {
+    private readonly ICoinGeckoService _service;
+
     public HomeView(ICoinGeckoService service)
     {
         InitializeComponent();
+        _service = service;
         var vm = new HomeViewModel(service);
         DataContext = vm;
         _ = vm.InitializeAsync();

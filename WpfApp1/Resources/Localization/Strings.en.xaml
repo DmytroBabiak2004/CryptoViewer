@@ -16,7 +16,7 @@
     <s:String x:Key="Label24hLow">24H LOW</s:String>
     <s:String x:Key="LabelMarkets">AVAILABLE ON MARKETS</s:String>
     <s:String x:Key="LabelLoading">Loading...</s:String>
-    <s:String x:Key="BtnTrade">Trade →</s:String>
-    <s:String x:Key="BtnBack">← Back</s:String>
+    <s:String x:Key="BtnTrade">Trade</s:String>
+    <s:String x:Key="BtnBack">Back</s:String>
     <s:String x:Key="BtnLang">UA</s:String>
 </ResourceDictionary>

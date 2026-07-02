@@ -1,5 +1,4 @@
 ﻿using CryptoViewer.Interfaces;
-using CryptoViewer.Services;
 using CryptoViewer.ViewModels;
 using System.Windows.Controls;
 

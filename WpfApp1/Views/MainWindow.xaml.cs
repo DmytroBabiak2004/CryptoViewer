@@ -1,6 +1,5 @@
 ﻿using CryptoViewer.Interfaces;
 using CryptoViewer.Services;
-using CryptoViewer.Views;
 using System.Windows;
 
 namespace CryptoViewer.Views;

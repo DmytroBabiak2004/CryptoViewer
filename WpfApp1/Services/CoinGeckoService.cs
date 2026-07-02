@@ -3,6 +3,7 @@ using CryptoViewer.Models;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading;
 
 namespace CryptoViewer.Services;
 
@@ -23,7 +24,6 @@ public class CoinGeckoService : ICoinGeckoService
         PropertyNameCaseInsensitive = true
     };
 
-    // --- Cache ---
     private static (List<Coin> data, DateTime fetchedAt)? _coinsCache;
     private static readonly Dictionary<string, (CoinDetails data, DateTime fetchedAt)> _detailsCache = new();
     private static readonly Dictionary<string, (List<(double, double)> data, DateTime fetchedAt)> _chartCache = new();
@@ -53,6 +53,54 @@ public class CoinGeckoService : ICoinGeckoService
         {
             System.Diagnostics.Debug.WriteLine(ex.ToString());
             return _coinsCache?.data ?? new();
+        }
+    }
+
+    private static readonly Dictionary<string, (List<Coin> data, DateTime fetchedAt)> _searchCache = new();
+    private static readonly TimeSpan _searchTtl = TimeSpan.FromMinutes(1);
+
+    public async Task<List<Coin>> SearchCoinsAsync(string query, CancellationToken cancellationToken = default)
+    {
+        query = query.Trim();
+
+        if (string.IsNullOrWhiteSpace(query))
+            return await GetTopCoinsAsync();
+
+        var cacheKey = query.ToLowerInvariant();
+        if (_searchCache.TryGetValue(cacheKey, out var cached) && DateTime.Now - cached.fetchedAt < _searchTtl)
+            return cached.data;
+
+        try
+        {
+            var searchEndpoint = $"search?query={Uri.EscapeDataString(query)}";
+            var searchJson = await _httpClient.GetStringAsync(searchEndpoint, cancellationToken);
+
+            using var searchDoc = JsonDocument.Parse(searchJson);
+            var matches = searchDoc.RootElement.TryGetProperty("coins", out var coinsElement)
+                ? JsonSerializer.Deserialize<List<SearchCoin>>(coinsElement.GetRawText(), _jsonOptions) ?? new()
+                : new List<SearchCoin>();
+
+            if (matches.Count == 0)
+            {
+                _searchCache[cacheKey] = (new List<Coin>(), DateTime.Now);
+                return new List<Coin>();
+            }
+            var ids = matches.Take(25).Select(c => c.Id);
+            var marketsEndpoint = $"coins/markets?vs_currency=usd&ids={string.Join(",", ids)}&order=market_cap_desc&sparkline=false";
+            var marketsJson = await _httpClient.GetStringAsync(marketsEndpoint, cancellationToken);
+            var coins = JsonSerializer.Deserialize<List<Coin>>(marketsJson, _jsonOptions) ?? new();
+
+            _searchCache[cacheKey] = (coins, DateTime.Now);
+            return coins;
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(ex.ToString());
+            return cached.data ?? new();
         }
     }
 
