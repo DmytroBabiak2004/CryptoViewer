@@ -1,4 +1,5 @@
-﻿using CryptoViewer.Services;
+﻿using CryptoViewer.Interfaces;
+using CryptoViewer.Services;
 using CryptoViewer.ViewModels;
 using System.Windows.Controls;
 
@@ -6,12 +7,9 @@ namespace CryptoViewer.Views;
 
 public partial class ConverterView : Page
 {
-    public ConverterView()
+    public ConverterView(ICoinGeckoService service)
     {
         InitializeComponent();
-        DataContext = new ConverterViewModel(new CoinGeckoService(), () =>
-        {
-            NavigationService?.GoBack();
-        });
+        DataContext = new ConverterViewModel(service, () => NavigationService?.GoBack());
     }
 }
