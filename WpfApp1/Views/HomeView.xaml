@@ -1,7 +1,7 @@
 ﻿<Page x:Class="CryptoViewer.Views.HomeView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      Background="#121212">
+      Background="{DynamicResource BgBrush}">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -11,28 +11,31 @@
         <TextBox Grid.Row="0"
                  Margin="0,0,0,10"
                  Height="35"
-                 Background="#1E1E1E"
-                 Foreground="White"
+                 Background="{DynamicResource SurfaceBrush}"
+                 Foreground="{DynamicResource TextPrimaryBrush}"
                  Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                  Padding="10"/>
 
         <ListView Grid.Row="1"
                   ItemsSource="{Binding Coins}"
                   MouseDoubleClick="Coin_DoubleClick"
-                  Background="#121212"
+                  Background="{DynamicResource BgBrush}"
                   BorderThickness="0"
-                  Foreground="White">
+                  Foreground="{DynamicResource TextPrimaryBrush}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
-                    <Setter Property="Background" Value="#121212"/>
-                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Background" Value="{DynamicResource BgBrush}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="0,8">
-                        <TextBlock Text="{Binding Name}" Foreground="White" FontSize="16"/>
-                        <TextBlock Text="{Binding CurrentPrice, StringFormat='${0:N2}'}" Foreground="#AAAAAA"/>
+                        <TextBlock Text="{Binding Name}"
+                                   Foreground="{DynamicResource TextPrimaryBrush}"
+                                   FontSize="16"/>
+                        <TextBlock Text="{Binding CurrentPrice, StringFormat='${0:N2}'}"
+                                   Foreground="{DynamicResource TextSecondaryBrush}"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

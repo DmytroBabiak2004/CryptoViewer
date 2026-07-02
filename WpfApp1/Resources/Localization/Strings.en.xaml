@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <s:String x:Key="AppTitle">CryptoViewer</s:String>
+    <s:String x:Key="NavHome">Home</s:String>
+    <s:String x:Key="NavConverter">Converter</s:String>
+    <s:String x:Key="BtnTheme">Theme</s:String>
+    <s:String x:Key="LabelAmount">Amount</s:String>
+    <s:String x:Key="LabelFrom">From</s:String>
+    <s:String x:Key="LabelTo">To</s:String>
+    <s:String x:Key="LabelPrice">PRICE</s:String>
+    <s:String x:Key="Label24hChange">24H CHANGE</s:String>
+    <s:String x:Key="LabelVolume">VOLUME 24H</s:String>
+    <s:String x:Key="LabelMarketCap">MARKET CAP</s:String>
+    <s:String x:Key="Label24hHigh">24H HIGH</s:String>
+    <s:String x:Key="Label24hLow">24H LOW</s:String>
+    <s:String x:Key="LabelMarkets">AVAILABLE ON MARKETS</s:String>
+    <s:String x:Key="LabelLoading">Loading...</s:String>
+    <s:String x:Key="BtnTrade">Trade →</s:String>
+    <s:String x:Key="BtnBack">← Back</s:String>
+    <s:String x:Key="BtnLang">UA</s:String>
+</ResourceDictionary>

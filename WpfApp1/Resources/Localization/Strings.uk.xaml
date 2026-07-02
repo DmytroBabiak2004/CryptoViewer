@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <s:String x:Key="AppTitle">КриптоВʼювер</s:String>
+    <s:String x:Key="NavHome">Головна</s:String>
+    <s:String x:Key="NavConverter">Конвертер</s:String>
+    <s:String x:Key="BtnTheme">Тема</s:String>
+    <s:String x:Key="LabelAmount">Сума</s:String>
+    <s:String x:Key="LabelFrom">З</s:String>
+    <s:String x:Key="LabelTo">В</s:String>
+    <s:String x:Key="LabelPrice">ЦІНА</s:String>
+    <s:String x:Key="Label24hChange">ЗМІНА 24Г</s:String>
+    <s:String x:Key="LabelVolume">ОБСЯГ 24Г</s:String>
+    <s:String x:Key="LabelMarketCap">КАПІТАЛІЗАЦІЯ</s:String>
+    <s:String x:Key="Label24hHigh">МАКС 24Г</s:String>
+    <s:String x:Key="Label24hLow">МІН 24Г</s:String>
+    <s:String x:Key="LabelMarkets">ДОСТУПНО НА БІРЖАХ</s:String>
+    <s:String x:Key="LabelLoading">Завантаження...</s:String>
+    <s:String x:Key="BtnTrade">Торгувати →</s:String>
+    <s:String x:Key="BtnBack">← Назад</s:String>
+    <s:String x:Key="BtnLang">EN</s:String>
+</ResourceDictionary>

@@ -4,7 +4,7 @@
         Title="Crypto Viewer"
         Height="600"
         Width="900"
-        Background="#121212">
+        Background="{DynamicResource BgBrush}">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -12,27 +12,50 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0" Background="#0D0D0D" Margin="0">
-            <TextBlock Text="CryptoViewer"
-                       Foreground="White"
+        <StackPanel Grid.Column="0" Background="{DynamicResource SidebarBrush}">
+            <TextBlock Text="{DynamicResource AppTitle}"
+                       Foreground="{DynamicResource TextPrimaryBrush}"
                        FontSize="14"
                        FontWeight="Bold"
                        Margin="16,24,16,32"/>
 
-            <Button Content="Home"
+            <Button Content="{DynamicResource NavHome}"
                     Click="NavHome_Click"
                     Background="Transparent"
-                    Foreground="Gray"
+                    Foreground="{DynamicResource TextSecondaryBrush}"
                     BorderThickness="0"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
                     Padding="16,10"
                     Cursor="Hand"/>
 
-            <Button Content="Converter"
+            <Button Content="{DynamicResource NavConverter}"
                     Click="NavConverter_Click"
                     Background="Transparent"
-                    Foreground="Gray"
+                    Foreground="{DynamicResource TextSecondaryBrush}"
+                    BorderThickness="0"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Left"
+                    Padding="16,10"
+                    Cursor="Hand"/>
+
+            <Separator Background="{DynamicResource Surface2Brush}" Margin="16,16"/>
+
+            <Button Content="{DynamicResource BtnTheme}"
+                    Click="ToggleTheme_Click"
+                    Background="Transparent"
+                    Foreground="{DynamicResource TextMutedBrush}"
+                    BorderThickness="0"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Left"
+                    Padding="16,10"
+                    Cursor="Hand"/>
+
+            <Button x:Name="LangButton"
+                    Content="{DynamicResource BtnLang}"
+                    Click="ToggleLang_Click"
+                    Background="Transparent"
+                    Foreground="{DynamicResource TextMutedBrush}"
                     BorderThickness="0"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
